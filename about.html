@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About Us - Njeiforbi Chicken N Burger</title>
+  <style>
+    /* Embedded about page CSS */
+
+    body {
+      margin: 0; 
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: #fafafa;
+      color: #333;
+      user-select: none;
+    }
+    nav {
+      position: sticky;
+      top: 0;
+      background-color: #ff6347;
+      color: white;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      z-index: 9999;
+    }
+    nav .logo {
+      font-weight: 900;
+      font-size: 1.5rem;
+      cursor: pointer;
+      user-select: none;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+      margin: 0;
+      padding: 0;
+      align-items: center;
+    }
+    nav ul li a {
+      color: white;
+      font-weight: 600;
+      transition: color 0.3s ease;
+      text-decoration: none;
+    }
+    nav ul li a:hover {
+      color: #ffd6cc;
+    }
+    nav ul li a.active {
+      text-decoration: underline;
+    }
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 5px;
+    }
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background-color: white;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+    @media (max-width: 600px) {
+      nav ul {
+        display: none;
+        flex-direction: column;
+        background-color: #ff6347;
+        position: absolute;
+        top: 55px;
+        right: 0;
+        width: 180px;
+        border-radius: 0 0 0 10px;
+        padding: 10px 0;
+      }
+      nav ul.active {
+        display: flex;
+      }
+      .hamburger {
+        display: flex;
+      }
+    }
+
+    main {
+      max-width: 900px;
+      margin: 30px auto 60px;
+      padding: 0 15px;
+      user-select: text;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: slideUpFadeIn 0.7s forwards;
+    }
+
+    h1 {
+      color: #ff6347;
+      margin-bottom: 25px;
+      font-weight: 900;
+    }
+    h2 {
+      margin-top: 40px;
+      margin-bottom: 15px;
+      color: #333;
+    }
+    p {
+      line-height: 1.6;
+      margin-bottom: 20px;
+      color: #444;
+    }
+    ul {
+      margin-left: 20px;
+    }
+    ul li {
+      margin-bottom: 10px;
+    }
+    .image-placeholder {
+      background: #eee;
+      border: 2px dashed #ff6347;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 600px;
+      height: 300px;
+      margin: 30px auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #ff6347;
+      font-weight: 700;
+      font-size: 1.2rem;
+      user-select: none;
+    }
+
+    /* Contact form styles */
+    form {
+      background: white;
+      padding: 25px 30px;
+      border-radius: 12px;
+      box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+      user-select: text;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: slideUpFadeIn 0.7s forwards;
+      animation-delay: 0.5s;
+      margin-top: 50px;
+    }
+    form label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 700;
+      color: #555;
+      user-select: text;
+    }
+    form input[type="text"],
+    form input[type="email"],
+    form textarea {
+      width: 100%;
+      padding: 12px 15px;
+      margin-bottom: 20px;
+      border: 2px solid #ff6347;
+      border-radius: 8px;
+      font-size: 1rem;
+      resize: vertical;
+      outline-offset: 2px;
+    }
+    form input[type="submit"] {
+      background-color: #ff6347;
+      color: white;
+      font-weight: 700;
+      padding: 12px 30px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: background-color 0.3s ease;
+      user-select: none;
+    }
+    form input[type="submit"]:hover {
+      background-color: #e5533d;
+    }
+
+    /* Slide-up fade-in animation */
+    @keyframes slideUpFadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="logo" id="logo"><a href="foodapp.html"><img src="lo.png" alt=""></a></div>
+    <ul id="nav-links">
+      <li><a href="foodapp.html">Home</a></li>
+      <li><a href="cart.html">Cart</a></li>
+      <li><a href="contact.html">Contact Us</a></li>
+      <li><a href="about.html" class="active">About Us</a></li>
+    </ul>
+    <div class="hamburger" id="hamburger" aria-label="Toggle navigation menu" role="button" tabindex="0">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </nav>
+
+  <main>
+    <h1>About Us</h1>
+
+    <p>Welcome to <strong>Njeiforbi Chicken N Burger</strong>, your number one source for freshly cooked chicken and mouth-watering burgers. We're dedicated to giving you the very best of our food, with a focus on quality, taste, and customer satisfaction.</p>
+
+    <p>Founded in 2018, Njeiforbi Chicken N Burger has come a long way from its beginnings. When we first started out, our passion for quality ingredients and unique recipes drove us to start this business. We hope you enjoy our food as much as we enjoy making it for you.</p>
+
+    <div class="image-placeholder" aria-label="Our team or restaurant image placeholder">
+      <img src="me.jpg" alt="" style="height: 400px; width:600px;">
+    </div>
+
+    <h2>Our Mission</h2>
+    <p>To provide delicious, high-quality chicken and burgers that bring people together and create happy moments.</p>
+
+    <h2>Our Values</h2>
+    <ul>
+      <li><strong>Quality:</strong> Using fresh ingredients to create tasty meals.</li>
+      <li><strong>Customer Focus:</strong> Putting our customers at the heart of everything we do.</li>
+      <li><strong>Community:</strong> Supporting local suppliers and engaging with our community.</li>
+      <li><strong>Innovation:</strong> Continuously improving our menu and service.</li>
+    </ul>
+
+    <div class="image-placeholder" aria-label="Our food or cooking process image placeholder">
+      <img src="you.jpg" alt="" style="height: 400px; width:600px;">
+    </div>
+
+    <h2>Meet Our Team</h2>
+    <p>Our talented chefs and staff are passionate about serving you the best chicken and burgers in town. Every meal is prepared with care and attention to detail.</p>
+
+    <!-- Contact Form in About Page -->
+    <form aria-label="Contact our customer service form" id="contact-service-form" novalidate>
+      <h2>Contact Our Customer Service</h2>
+      <label for="cs-name">Name <span aria-hidden="true" style="color: #ff6347;">*</span></label>
+      <input type="text" id="cs-name" name="cs-name" placeholder="Your full name" required />
+
+      <label for="cs-email">Email <span aria-hidden="true" style="color: #ff6347;">*</span></label>
+      <input type="email" id="cs-email" name="cs-email" placeholder="you@example.com" required />
+
+      <label for="cs-message">Message <span aria-hidden="true" style="color: #ff6347;">*</span></label>
+      <textarea id="cs-message" name="cs-message" rows="5" placeholder="Contact our customer service" required></textarea>
+
+      <input type="submit" value="Send Message" />
+    </form>
+
+  </main>
+
+  <script>
+    // Hamburger toggle
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('nav-links');
+
+    hamburger.addEventListener('click', () => navLinks.classList.toggle('active'));
+    hamburger.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        navLinks.classList.toggle('active');
+      }
+    });
+
+    // Logo scroll to top
+    document.getElementById('logo').addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // About page contact form submission
+    const csForm = document.getElementById('contact-service-form');
+    csForm.addEventListener('submit', e => {
+      e.preventDefault();
+      if (!csForm.checkValidity()) {
+        csForm.reportValidity();
+        return;
+      }
+      alert('Thank you for contacting our customer service! We will get back to you shortly.');
+      csForm.reset();
+    });
+  </script>
+ 
+  <footer>
+    <div class="footer-container">
+      <div class="footer-about">
+        <h3>Njeiforbi Chicken N Burger</h3>
+        <p>Your go-to place for delicious chicken and burgers, cooked fresh every day with love and quality.</p>
+      </div>
+
+      <div class="footer-links">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="#">Menu</a></li>
+          <li><a href="cart.html">Cart</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-contact">
+        <h4>Contact Us</h4>
+        <p>Email: support@njeiforbi.com</p>
+        <p>Phone: +1 (234) 567-8901</p>
+        
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Njeiforbi Chicken N Burger. All rights reserved.</p>
+    </div>
+
+    <style>
+      footer {
+        background-color: #222;
+        color: #ddd;
+        padding: 40px 20px 20px;
+        font-size: 0.9rem;
+        user-select: none;
+      }
+
+      .footer-container {
+        max-width: 1100px;
+        margin: auto;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 40px;
+        justify-content: space-between;
+      }
+
+      .footer-about, .footer-links, .footer-contact {
+        flex: 1 1 250px;
+        min-width: 250px;
+      }
+
+      .footer-about h3,
+      .footer-links h4,
+      .footer-contact h4 {
+        margin-bottom: 20px;
+        font-weight: 700;
+        color: #ff6347;
+      }
+
+      .footer-about p {
+        line-height: 1.6;
+        color: #ccc;
+      }
+
+      .footer-links ul {
+        list-style: none;
+        padding: 0;
+      }
+      .footer-links ul li {
+        margin-bottom: 12px;
+      }
+      .footer-links ul li a {
+        text-decoration: none;
+        color: #ddd;
+        transition: color 0.3s ease;
+      }
+      .footer-links ul li a:hover {
+        color: #ff6347;
+      }
+
+      .footer-contact p {
+        margin-bottom: 12px;
+        color: #ccc;
+      }
+
+      .social-icons {
+        display: flex;
+        gap: 15px;
+        margin-top: 12px;
+      }
+      .social-icons a svg {
+        transition: transform 0.3s ease;
+      }
+      .social-icons a:hover svg {
+        transform: scale(1.1);
+        filter: brightness(1.2);
+      }
+
+      .footer-bottom {
+        text-align: center;
+        margin-top: 30px;
+        font-size: 0.85rem;
+        color: #666;
+        user-select: none;
+      }
+
+      /* Responsive */
+      @media (max-width: 700px) {
+        .footer-container {
+          flex-direction: column;
+          gap: 30px;
+        }
+        .footer-about, .footer-links, .footer-contact {
+          min-width: 100%;
+        }
+      }
+    </style>
+  </footer>
+
+</body>
+</html>

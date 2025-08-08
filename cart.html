@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Your Cart - Njeiforbi Chicken N Burger</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: #fafafa;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      background-color: #ff6347;
+      color: white;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      z-index: 9999;
+    }
+    nav .logo {
+      font-weight: 900;
+      font-size: 1.5rem;
+      user-select: none;
+      cursor: pointer;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+      margin: 0;
+      padding: 0;
+      align-items: center;
+    }
+    nav ul li a {
+      color: white;
+      font-weight: 600;
+      transition: color 0.3s ease;
+      text-decoration: none;
+    }
+    nav ul li a:hover {
+      color: #ffd6cc;
+    }
+    .cart-badge {
+      position: relative;
+      font-weight: bold;
+      cursor: pointer;
+      user-select: none;
+    }
+    .cart-badge::after {
+      content: attr(data-count);
+      position: absolute;
+      top: -8px;
+      right: -10px;
+      background: #212121;
+      color: white;
+      font-size: 0.75rem;
+      padding: 2px 6px;
+      border-radius: 12px;
+      display: none;
+      min-width: 20px;
+      text-align: center;
+    }
+    .cart-badge[data-count]:not([data-count="0"])::after {
+      display: inline-block;
+    }
+
+    main {
+      max-width: 1000px;
+      margin: 20px auto 60px;
+      padding: 0 15px 40px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+      min-height: 300px;
+      position: relative;
+    }
+
+    h1 {
+      color: #ff6347;
+      padding: 20px 0 0 20px;
+      user-select: none;
+    }
+
+    #cart-list {
+      list-style: none;
+      margin: 0;
+      padding: 20px;
+      max-height: 450px;
+      overflow-y: auto;
+    }
+    #cart-list li {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      border-bottom: 1px solid #eee;
+      padding: 12px 0;
+    }
+    #cart-list li img {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 8px;
+      user-select: none;
+    }
+    #cart-list li .details {
+      flex-grow: 1;
+    }
+    #cart-list li .details strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 1.1rem;
+    }
+    #cart-list li .details span {
+      font-size: 0.9rem;
+      color: #666;
+    }
+    #cart-list li .quantity-controls {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+    }
+    #cart-list li button {
+      cursor: pointer;
+      padding: 4px 10px;
+      border: none;
+      background-color: #ff6347;
+      color: white;
+      border-radius: 5px;
+      font-weight: 600;
+      user-select: none;
+      transition: background-color 0.3s ease;
+    }
+    #cart-list li button:hover {
+      background-color: #e5533d;
+    }
+    #cart-total {
+      font-weight: 700;
+      font-size: 1.3rem;
+      text-align: right;
+      padding: 15px 20px;
+      color: #1e88e5;
+      user-select: none;
+    }
+    .clear-btn {
+      margin: 20px 20px 40px 20px;
+      padding: 10px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      width: calc(50% - 20px);
+      user-select: none;
+      transition: background-color 0.3s ease;
+      background-color: #999;
+      color: white;
+      margin-top: -30px;
+    }
+    .clear-btn:hover {
+      background-color: #ed0000;
+    }
+    .checkout-btn {
+      margin: 20px 20px 40px 20px;
+      padding: 10px 10px 10px 40px; /* space for spinner */
+      font-size: 1.1rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      width: calc(50% - 20px);
+      user-select: none;
+      transition: background-color 0.3s ease;
+      background-color: #045f21;
+      color: white;
+      margin-top: -50px;
+      position: relative;
+    }
+    .checkout-btn:hover:not([disabled]) {
+      background-color: #1565c0;
+    }
+    .checkout-btn[disabled] {
+      background-color: #444;
+      cursor: not-allowed;
+    }
+
+    /* Spinner inside checkout button */
+    .checkout-btn .spinner {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 18px;
+      height: 18px;
+      border: 3px solid rgba(255, 255, 255, 0.6);
+      border-top: 3px solid white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      display: none;
+    }
+    .checkout-btn.loading .spinner {
+      display: inline-block;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Estimated delivery info */
+    #delivery-info {
+      max-width: 1000px;
+      margin: 0 auto 20px;
+      padding: 10px 15px;
+      font-size: 1rem;
+      color: #555;
+      background: #eaf7ea;
+      border-left: 6px solid #045f21;
+      border-radius: 6px;
+      user-select: none;
+      max-width: 1000px;
+    }
+
+    /* Toast notification */
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #045f21;
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      z-index: 9999;
+      font-size: 1rem;
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+      user-select: none;
+    }
+
+    /* Thank you overlay */
+    #thank-you-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    #thank-you-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+    #thank-you-message {
+      background: white;
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+      text-align: center;
+      font-size: 1.3rem;
+      color: #045f21;
+      font-weight: 700;
+    }
+    #thank-you-message button {
+      margin-top: 20px;
+      background-color: #045f21;
+      color: white;
+      border: none;
+      padding: 10px 25px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+    #thank-you-message button:hover {
+      background-color: #1565c0;
+    }
+
+    /* Responsive */
+    @media (max-width: 700px) {
+      #cart-list li {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      #cart-list li img {
+        margin-bottom: 10px;
+      }
+      #cart-list li .quantity-controls {
+        margin-top: 5px;
+      }
+      .clear-btn, .checkout-btn {
+        width: 100%;
+        margin: 10px 0;
+        float: none;
+      }
+      #delivery-info {
+        max-width: 100%;
+        margin: 0 10px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="logo" id="logo" tabindex="0" role="button" aria-label="Go to Home Page">
+   <a href="foodapp.html"><img src="lo.png" alt=""></a> 
+  </div>
+  <ul id="nav-links">
+    <li><a href="foodapp.html">Home</a></li>
+    <li><a href="cart.html" class="active">Cart</a></li>
+    <li><a href="contact.html">Contact Us</a></li>
+    <li><a href="about.html">About Us</a></li>
+  </ul>
+</nav>
+
+<div id="delivery-info">
+  Estimated Delivery: <strong>30 - 45 minutes</strong>. Thank you for ordering with us!
+</div>
+
+<main>
+  <h1>Your Cart</h1>
+  <ul id="cart-list">
+    <!-- Cart items appear here -->
+  </ul>
+  <p id="cart-total">Total: $0.00</p>
+
+  <button class="clear-btn" id="clear-cart-btn" type="button">Clear Cart</button>
+  <button class="checkout-btn" id="checkout-btn" type="button" aria-live="polite" aria-busy="false" aria-disabled="false">
+    <span class="spinner" aria-hidden="true"></span>
+    Checkout
+  </button>
+</main>
+
+<!-- Toast notification container (created dynamically) -->
+
+<!-- Thank You Overlay -->
+<div id="thank-you-overlay" role="alertdialog" aria-modal="true" aria-labelledby="thank-you-message" tabindex="-1">
+  <div id="thank-you-message">
+    <p>Thank you for your order! We appreciate your business.</p>
+    <button id="thank-you-close-btn" type="button">Close</button>
+  </div>
+</div>
+
+<script>
+  const cartListEl = document.getElementById('cart-list');
+  const cartTotalEl = document.getElementById('cart-total');
+  const clearBtn = document.getElementById('clear-cart-btn');
+  const checkoutBtn = document.getElementById('checkout-btn');
+  const logo = document.getElementById('logo');
+
+  // Thank You overlay elements
+  const thankYouOverlay = document.getElementById('thank-you-overlay');
+  const thankYouCloseBtn = document.getElementById('thank-you-close-btn');
+
+  // Read cart from localStorage
+  function getCart() {
+    return JSON.parse(localStorage.getItem('cart')) || [];
+  }
+
+  // Save cart to localStorage
+  function saveCart(cart) {
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }
+
+  // Render cart items
+  function renderCart() {
+    const cart = getCart();
+    cartListEl.innerHTML = '';
+
+    if (cart.length === 0) {
+      cartListEl.innerHTML = '<li>Your cart is empty.</li>';
+      cartTotalEl.textContent = 'Total: $0.00';
+      checkoutBtn.disabled = true;
+      checkoutBtn.setAttribute('aria-disabled', 'true');
+      return;
+    }
+
+    let total = 0;
+    cart.forEach(item => {
+      total += item.price * item.quantity;
+      const li = document.createElement('li');
+      li.innerHTML = `
+        <img src="${item.image}" alt="${item.name}" />
+        <div class="details">
+          <strong>${item.name}</strong>
+          <span>Price: $${item.price.toFixed(2)}</span><br>
+          <span>Quantity: ${item.quantity}</span><br>
+          <span>Subtotal: $${(item.price * item.quantity).toFixed(2)}</span>
+        </div>
+        <div class="quantity-controls">
+          <button class="btn-decrease" aria-label="Decrease quantity of ${item.name}">-</button>
+          <button class="btn-increase" aria-label="Increase quantity of ${item.name}">+</button>
+          <button class="btn-remove" aria-label="Remove ${item.name} from cart">Remove</button>
+        </div>
+      `;
+
+      // Event listeners for buttons
+      li.querySelector('.btn-increase').addEventListener('click', () => {
+        item.quantity++;
+        saveCart(cart);
+        renderCart();
+      });
+      li.querySelector('.btn-decrease').addEventListener('click', () => {
+        if (item.quantity > 1) {
+          item.quantity--;
+        } else {
+          // Remove item if quantity goes to 0
+          const index = cart.findIndex(i => i.name === item.name);
+          if (index !== -1) cart.splice(index, 1);
+        }
+        saveCart(cart);
+        renderCart();
+      });
+      li.querySelector('.btn-remove').addEventListener('click', () => {
+        const index = cart.findIndex(i => i.name === item.name);
+        if (index !== -1) cart.splice(index, 1);
+        saveCart(cart);
+        renderCart();
+      });
+
+      cartListEl.appendChild(li);
+    });
+
+    cartTotalEl.textContent = `Total: $${total.toFixed(2)}`;
+    checkoutBtn.disabled = false;
+    checkoutBtn.setAttribute('aria-disabled', 'false');
+  }
+
+  // Clear cart handler
+  clearBtn.addEventListener('click', () => {
+    if (confirm('Are you sure you want to clear your cart?')) {
+      localStorage.removeItem('cart');
+      renderCart();
+    }
+  });
+
+  // Toast notification function
+  function showToast(message) {
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.textContent = message;
+    document.body.appendChild(toast);
+
+    setTimeout(() => {
+      toast.style.opacity = '1';
+    }, 100);
+
+    setTimeout(() => {
+      toast.style.opacity = '0';
+      setTimeout(() => {
+        document.body.removeChild(toast);
+      }, 500);
+    }, 3000);
+  }
+
+  // Checkout handler
+  checkoutBtn.addEventListener('click', () => {
+    const cart = getCart();
+    if (cart.length === 0) {
+      alert('Your cart is empty!');
+      return;
+    }
+
+    // Disable button and show spinner
+    checkoutBtn.disabled = true;
+    checkoutBtn.setAttribute('aria-disabled', 'true');
+    checkoutBtn.setAttribute('aria-busy', 'true');
+    checkoutBtn.classList.add('loading');
+
+    const orderTime = new Date().toLocaleString();
+
+    let orderSummary = `*New Order Received!*\nOrder Time: ${orderTime}\n\n*Items:*\n`;
+
+    cart.forEach(item => {
+      orderSummary += `• ${item.name}\n  Quantity: ${item.quantity}\n  Price: $${item.price.toFixed(2)}\n\n`;
+    });
+
+    orderSummary += '*This is a new order!*';
+
+    const encodedMessage = encodeURIComponent(orderSummary);
+
+    // Your WhatsApp number in international format without '+' or spaces
+    const yourPhoneNumber = "237652628916";
+
+    const whatsappUrl = `https://api.whatsapp.com/send?phone=${yourPhoneNumber}&text=${encodedMessage}`;
+
+    // Open WhatsApp chat in new tab
+    const win = window.open(whatsappUrl, '_blank');
+
+    if (win) {
+      win.focus();
+      showToast('WhatsApp opened! Please complete your order.');
+
+      // Show thank-you overlay after a short delay
+      setTimeout(() => {
+        thankYouOverlay.classList.add('active');
+      }, 800);
+
+      // Clear cart after opening WhatsApp
+      localStorage.removeItem('cart');
+      renderCart();
+    } else {
+      alert('Please allow popups for this site to proceed to WhatsApp.');
+      // Re-enable button if popup blocked
+      checkoutBtn.disabled = false;
+      checkoutBtn.setAttribute('aria-disabled', 'false');
+      checkoutBtn.setAttribute('aria-busy', 'false');
+      checkoutBtn.classList.remove('loading');
+    }
+  });
+
+  // Close Thank You overlay
+  thankYouCloseBtn.addEventListener('click', () => {
+    thankYouOverlay.classList.remove('active');
+  });
+
+  // Logo click scroll to home (or reload)
+  logo.addEventListener('click', () => {
+    window.location.href = 'index.html';
+  });
+  logo.addEventListener('keydown', e => {
+    if(e.key === 'Enter' || e.key === ' ') {
+      window.location.href = 'index.html';
+    }
+  });
+
+  // Initialize
+  renderCart();
+</script>
+
+</body>
+</html>

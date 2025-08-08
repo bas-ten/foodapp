@@ -1,0 +1,13 @@
+.main-nav .mega-menu {
+    display: none;
+    position: absolute;
+    left: 0; right: 0;
+    padding: 1rem;
+    background: #fff;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+  }
+  .menu-item.dropdown:hover .mega-menu {
+    display: grid;
+  }
+  
